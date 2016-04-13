@@ -4,7 +4,6 @@ project(pokertools-cpp VERSION 0.1)
 set(CMAKE_BUILD_TYPE RELEASE)
 
 aux_source_directory(src LIB_SOURCES)
-#aux_source_directory(test TEST_SOURCES)
 file(GLOB LIB_HEADERS include/pokertools-cpp/*.hpp)
 include_directories(include)
 
