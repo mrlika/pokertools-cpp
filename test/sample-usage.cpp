@@ -17,7 +17,7 @@
  */
 
 /**
- * Evaluates hand and finds strenght of your cards again random opponent
+ * Evaluates hand and finds strenght of your cards against random opponent
  * hand using sampling (Monte Carlo method).
  */
 
