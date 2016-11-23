@@ -68,6 +68,7 @@ int main()
 
     unsigned winCount = 0;
     unsigned splitCount = 0;
+    unsigned looseCount = 0;
     unsigned totalCount = 10000;
 
     for (unsigned i = 0; i < totalCount; i++) {
@@ -78,6 +79,8 @@ int main()
             winCount++;
         } else if (opponentHoleCardsValue == myHandValue) {
             splitCount++;
+        } else {
+            looseCount++;
         }
     }
 
@@ -92,5 +95,5 @@ int main()
               << std::endl;
     std::cout << "win   " << (double) winCount / totalCount << "%" << std::endl;
     std::cout << "split " << (double) splitCount / totalCount << "%" << std::endl;
-    std::cout << "loose " << 1 - (double) winCount / totalCount << "%" << std::endl;
+    std::cout << "loose " << (double) looseCount / totalCount << "%" << std::endl;
 }
