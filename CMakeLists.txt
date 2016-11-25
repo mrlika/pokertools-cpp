@@ -19,11 +19,12 @@ set_target_properties(${PROJECT_NAME}-static PROPERTIES OUTPUT_NAME ${PROJECT_NA
 set_property(TARGET
     ${PROJECT_NAME}-shared
     ${PROJECT_NAME}-static
-PROPERTY CXX_STANDARD 11)
+PROPERTY CXX_STANDARD 14)
 
 FUNCTION(add_test_pt TARGET)
     add_executable(${TARGET} ${ARGN})
-    set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 11)
+    target_link_libraries(${TARGET} pthread)
+    set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 14)
     add_test(${TARGET} ${TARGET})
 ENDFUNCTION()
 
