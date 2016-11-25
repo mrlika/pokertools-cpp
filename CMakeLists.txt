@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 
 project(pokertools-cpp VERSION 0.1)
-set(CMAKE_BUILD_TYPE RELEASE)
 
 aux_source_directory(src LIB_SOURCES)
 file(GLOB LIB_HEADERS include/pokertools-cpp/*.hpp)
