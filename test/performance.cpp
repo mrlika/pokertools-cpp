@@ -71,21 +71,21 @@ void testPerformance() noexcept
     Hand hands5[handsCount];
     unsigned result = 0;
 
-    for (int i = 0; i < handsCount; i++) {
+    for (unsigned i = 0; i < handsCount; i++) {
         hands[i] = getRandomHand(7);
         hands5[i] = getRandomHand(5);
     }
 
     std::chrono::steady_clock::time_point begin, end;
 
-    for (int i = 0; i < iterationsCount; i++) {
+    for (unsigned i = 0; i < iterationsCount; i++) {
         result += evaluateHoldem7CardsHand(hands[i % handsCount]);
     }
 
     testNames.emplace_back("evaluateHoldemHand 5");
     begin = std::chrono::steady_clock::now();
 
-    for (int i = 0; i < iterationsCount; i++) {
+    for (unsigned i = 0; i < iterationsCount; i++) {
         result += evaluateHoldemHand(hands5[i % handsCount], 5);
     }
 
@@ -95,7 +95,7 @@ void testPerformance() noexcept
     testNames.emplace_back("evaluateHoldemHand 7");
     begin = std::chrono::steady_clock::now();
 
-    for (int i = 0; i < iterationsCount; i++) {
+    for (unsigned i = 0; i < iterationsCount; i++) {
         result += evaluateHoldemHand(hands[i % handsCount], 7);
     }
 
@@ -105,7 +105,7 @@ void testPerformance() noexcept
     testNames.emplace_back("evaluateHoldem5CardsHand");
     begin = std::chrono::steady_clock::now();
 
-    for (int i = 0; i < iterationsCount; i++) {
+    for (unsigned i = 0; i < iterationsCount; i++) {
         result += evaluateHoldem5CardsHand(hands5[i % handsCount]);
     }
 
@@ -115,7 +115,7 @@ void testPerformance() noexcept
     testNames.emplace_back("evaluateHoldem7CardsHand");
     begin = std::chrono::steady_clock::now();
 
-    for (int i = 0; i < iterationsCount; i++) {
+    for (unsigned i = 0; i < iterationsCount; i++) {
         result += evaluateHoldem7CardsHand(hands[i % handsCount]);
     }
 
@@ -123,7 +123,7 @@ void testPerformance() noexcept
     testDurations.push_back(end - begin);
 
     std::cout << result << std::endl;;
-    for (int i = 0; i < testDurations.size(); i++) {
+    for (unsigned i = 0; i < testDurations.size(); i++) {
         std::cout << "Performance " << testNames[i] << " is " << (std::chrono::duration_cast<std::chrono::nanoseconds>(testDurations[i]).count() / iterationsCount) << " ns per hand. It is " <<
                  iterationsCount * std::chrono::seconds(1) / testDurations[i] << " hands per second" << std::endl;
     }
