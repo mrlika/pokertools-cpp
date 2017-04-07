@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.1.3)
 
 project(pokertools-cpp VERSION 0.1)
+
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -Wno-unused-parameter")
 
 aux_source_directory(src LIB_SOURCES)
 file(GLOB LIB_HEADERS include/pokertools-cpp/*.hpp)
@@ -16,15 +18,11 @@ set_target_properties(${PROJECT_NAME}-shared PROPERTIES OUTPUT_NAME ${PROJECT_NA
 add_library(${PROJECT_NAME}-static ${LIB_SOURCES} ${LIB_HEADERS})
 set_target_properties(${PROJECT_NAME}-static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 
-set_property(TARGET
-    ${PROJECT_NAME}-shared
-    ${PROJECT_NAME}-static
-PROPERTY CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 14)
 
 FUNCTION(add_test_pt TARGET)
     add_executable(${TARGET} ${ARGN})
     target_link_libraries(${TARGET} pthread)
-    set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 14)
     add_test(${TARGET} ${TARGET})
 ENDFUNCTION()
 
