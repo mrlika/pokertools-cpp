@@ -19,7 +19,6 @@
 #include <pokertools-cpp/evaluators.hpp>
 
 #include <bitset>
-#include <iostream>
 
 namespace pokertools
 {
@@ -30,7 +29,7 @@ namespace pokertools
     static uint16_t* highUpTo3Bits;
     static std::unique_ptr<uint8_t, std::function<void(uint8_t*)>> buffer;
 
-    const unsigned HandTypeInValueShift = 28;
+    static const unsigned HandTypeInValueShift = 28;
 
     static inline uint32_t calculateStraightFlushValue(uint16_t highCardRank) noexcept
     {
