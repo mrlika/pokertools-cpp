@@ -4,6 +4,13 @@ project(pokertools-cpp VERSION 0.1)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -Wno-unused-parameter")
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+endif()
+
 aux_source_directory(src LIB_SOURCES)
 file(GLOB LIB_HEADERS include/pokertools-cpp/*.hpp)
 include_directories(include)
@@ -18,13 +25,11 @@ set_target_properties(${PROJECT_NAME}-shared PROPERTIES OUTPUT_NAME ${PROJECT_NA
 add_library(${PROJECT_NAME}-static ${LIB_SOURCES} ${LIB_HEADERS})
 set_target_properties(${PROJECT_NAME}-static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 
-set(CMAKE_CXX_STANDARD 14)
-
-FUNCTION(add_test_pt TARGET)
+function(add_test_pt TARGET)
     add_executable(${TARGET} ${ARGN})
     target_link_libraries(${TARGET} pthread)
     add_test(${TARGET} ${TARGET})
-ENDFUNCTION()
+endfunction()
 
 add_test_pt(test-performance ${LIB_SOURCES} ${LIB_HEADERS} test/performance.cpp)
 add_test_pt(test-correctness ${LIB_SOURCES} ${LIB_HEADERS} test/correctness.cpp)
