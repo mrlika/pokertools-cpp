@@ -24,10 +24,10 @@
 
 namespace pokertools
 {
-    const unsigned SuitsCount = 4;
-    const unsigned SuitSizeInBits = 16;
-    const unsigned RanksCount = 13;
-    const unsigned CardsCount = SuitsCount * RanksCount;
+    constexpr unsigned SuitsCount = 4;
+    constexpr unsigned SuitSizeInBits = 16;
+    constexpr unsigned RanksCount = 13;
+    constexpr unsigned CardsCount = SuitsCount * RanksCount;
 
     enum class Suit : unsigned {
         Clubs,
@@ -122,7 +122,7 @@ namespace pokertools
             uint16_t spades;
         } suit;
 
-        bool operator==(Card card)
+        bool operator==(Card card) const noexcept
         {
             return bits == static_cast<uint64_t>(card);
         }
@@ -130,67 +130,67 @@ namespace pokertools
 
     static_assert(sizeof(Hand) == 8, "Hand should be exactly 64 bits");
 
-    constexpr Hand operator"" _hand(unsigned long long hand)
+    constexpr Hand operator"" _hand(unsigned long long hand) noexcept
     {
         assert((hand & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
         return { hand };
     }
 
-    constexpr Card operator"" _clubs(unsigned long long rank)
+    constexpr Card operator"" _clubs(unsigned long long rank) noexcept
     {
         assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Clubs));
     }
 
-    constexpr Card operator"" _diamonds(unsigned long long rank)
+    constexpr Card operator"" _diamonds(unsigned long long rank) noexcept
     {
         assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Diamonds));
     }
 
-    constexpr Card operator"" _hearts(unsigned long long rank)
+    constexpr Card operator"" _hearts(unsigned long long rank) noexcept
     {
         assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Hearts));
     }
 
-    constexpr Card operator"" _spades(unsigned long long rank)
+    constexpr Card operator"" _spades(unsigned long long rank) noexcept
     {
         assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Spades));
     }
 
-    const auto ace_clubs = 14_clubs;
-    const auto king_clubs = 13_clubs;
-    const auto queen_clubs = 12_clubs;
-    const auto jack_clubs = 11_clubs;
+    constexpr Card ace_clubs = 14_clubs;
+    constexpr Card king_clubs = 13_clubs;
+    constexpr Card queen_clubs = 12_clubs;
+    constexpr Card jack_clubs = 11_clubs;
 
-    const auto ace_diamonds = 14_diamonds;
-    const auto king_diamonds = 13_diamonds;
-    const auto queen_diamonds = 12_diamonds;
-    const auto jack_diamonds = 11_diamonds;
+    constexpr Card ace_diamonds = 14_diamonds;
+    constexpr Card king_diamonds = 13_diamonds;
+    constexpr Card queen_diamonds = 12_diamonds;
+    constexpr Card jack_diamonds = 11_diamonds;
 
-    const auto ace_hearts = 14_hearts;
-    const auto king_hearts = 13_hearts;
-    const auto queen_hearts = 12_hearts;
-    const auto jack_hearts = 11_hearts;
+    constexpr Card ace_hearts = 14_hearts;
+    constexpr Card king_hearts = 13_hearts;
+    constexpr Card queen_hearts = 12_hearts;
+    constexpr Card jack_hearts = 11_hearts;
 
-    const auto ace_spades = 14_spades;
-    const auto king_spades = 13_spades;
-    const auto queen_spades = 12_spades;
-    const auto jack_spades = 11_spades;
+    constexpr Card ace_spades = 14_spades;
+    constexpr Card king_spades = 13_spades;
+    constexpr Card queen_spades = 12_spades;
+    constexpr Card jack_spades = 11_spades;
 
-    inline Hand operator|(Card card1, Card card2) noexcept
+    inline constexpr Hand operator|(Card card1, Card card2) noexcept
     {
         return Hand { static_cast<uint64_t>(card1) | static_cast<uint64_t>(card2) };
     }
 
-    inline Hand operator|(Hand hand, Card card) noexcept
+    inline constexpr Hand operator|(Hand hand, Card card) noexcept
     {
         return Hand { hand.bits | static_cast<uint64_t>(card) };
     }
 
-    inline Hand operator|(Card card, Hand hand) noexcept
+    inline constexpr Hand operator|(Card card, Hand hand) noexcept
     {
         return Hand { hand.bits | static_cast<uint64_t>(card) };
     }
@@ -201,7 +201,7 @@ namespace pokertools
         return hand;
     }
 
-    inline Hand operator|(Hand hand1, Hand hand2) noexcept
+    inline constexpr Hand operator|(Hand hand1, Hand hand2) noexcept
     {
         return Hand { hand1.bits | hand2.bits };
     }
@@ -212,12 +212,14 @@ namespace pokertools
         return hand1;
     }
 
-    inline Card createCard(Rank rank, Suit suit) noexcept
+    inline constexpr Card createCard(Rank rank, Suit suit) noexcept
     {
+        assert(static_cast<unsigned>(suit) <= 3);
+        assert(rank != Rank::None);
         return static_cast<Card>(static_cast<uint64_t>(rank) << SuitSizeInBits * static_cast<unsigned>(suit));
     }
 
-    inline Card createCard(unsigned cardNumber) noexcept
+    inline constexpr Card createCard(unsigned cardNumber) noexcept
     {
         assert(cardNumber < CardsCount);
         unsigned suite = cardNumber / RanksCount;

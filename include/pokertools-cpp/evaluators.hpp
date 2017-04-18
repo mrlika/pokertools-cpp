@@ -25,9 +25,9 @@
 
 namespace pokertools
 {
-    static const unsigned BitsArraySize = 0b1111111000000 + 1;
-    static const unsigned HigUpTo3BitsArraySize = 0b1111100000000 + 1;
-    static const unsigned InternalTablesBufferSize = sizeof(uint8_t) * BitsArraySize + sizeof(uint16_t) * (HigUpTo3BitsArraySize + 3 * BitsArraySize);
+    static constexpr unsigned BitsArraySize = 0b1111111000000 + 1;
+    static constexpr unsigned HigUpTo3BitsArraySize = 0b1111100000000 + 1;
+    static constexpr unsigned InternalTablesBufferSize = sizeof(uint8_t) * BitsArraySize + sizeof(uint16_t) * (HigUpTo3BitsArraySize + 3 * BitsArraySize);
 
     extern void initializeEvaluator(std::unique_ptr<uint8_t, std::function<void(uint8_t*)>> internalTablesBuffer) noexcept;
 
