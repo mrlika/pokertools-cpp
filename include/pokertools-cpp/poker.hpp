@@ -132,31 +132,31 @@ namespace pokertools
 
     constexpr Hand operator"" _hand(unsigned long long hand)
     {
-        //assert((hand & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
+        assert((hand & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
         return { hand };
     }
 
     constexpr Card operator"" _clubs(unsigned long long rank)
     {
-        //assert((rank >= 2) && (rank <= 14));
+        assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Clubs));
     }
 
     constexpr Card operator"" _diamonds(unsigned long long rank)
     {
-        //assert((rank >= 2) && (rank <= 14));
+        assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Diamonds));
     }
 
     constexpr Card operator"" _hearts(unsigned long long rank)
     {
-        //assert((rank >= 2) && (rank <= 14));
+        assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Hearts));
     }
 
     constexpr Card operator"" _spades(unsigned long long rank)
     {
-        //assert((rank >= 2) && (rank <= 14));
+        assert((rank >= 2) && (rank <= 14));
         return static_cast<Card>(uint64_t(1) << rank >> 2 << SuitSizeInBits * static_cast<unsigned>(Suit::Spades));
     }
 
