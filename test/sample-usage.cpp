@@ -37,16 +37,16 @@ static Card getRandomCard() noexcept
     return createCard(cardsUniformDistribution(randomEngine));
 }
 
-static Hand getRandomHand(unsigned cardsCount, Hand filter = 0_hand) noexcept
+static Hand getRandomHand(unsigned cardsCount, Hand filter = 0) noexcept
 {
-    Hand hand = 0_hand;
+    Hand hand = 0;
 
     while (cardsCount) {
         Card card;
 
         do {
             card = getRandomCard();
-        } while (((hand | card).bits == hand.bits) | ((filter | card).bits == filter.bits));
+        } while (((hand | card) == hand) | ((filter | card) == filter));
 
         hand |= card;
         cardsCount--;
@@ -59,7 +59,7 @@ int main()
 {
     pokertools::initializeEvaluator();
 
-    // Hand communityCards =  0b0001110000000000000000000000000000000000000000000000000011000000_hand;
+    //Hand communityCards =  0b0001110000000000000000000000000000000000000000000000000011000000;
     Hand communityCards = ace_spades | 8_clubs | 9_clubs | king_spades | queen_spades;
     Hand myHoleCards = 10_spades | 8_diamonds;
     Hand myHand = communityCards | myHoleCards;
@@ -87,7 +87,7 @@ int main()
     const char* handTypes[] = { "High Card", "Pair", "Two Pair", "Three Of A Kind", "Straight", "Flush", "FullHouse", "Four Of A Kind", "Straight Fulsh" };
     EvaluateResult myHandEvaluateResult{ myHandValue };
 
-    std::cout << "hand: " << std::bitset<64>(myHand.bits) << std::endl
+    std::cout << "hand: " << std::bitset<64>(myHand) << std::endl
               << "value: " << myHandValue << " (0b" << std::bitset<32>(myHandValue) << ")" << std::endl
               << handTypes[myHandEvaluateResult.details.handType]
               << " High Ranks " << std::bitset<RanksCount>(myHandEvaluateResult.details.highRanks)

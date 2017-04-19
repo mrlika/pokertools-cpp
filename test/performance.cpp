@@ -40,16 +40,16 @@ static Card getRandomCard() noexcept
     return createCard(cardsUniformDistribution(randomEngine));
 }
 
-static Hand getRandomHand(unsigned cardsCount, Hand filter = 0_hand) noexcept
+static Hand getRandomHand(unsigned cardsCount, Hand filter = 0) noexcept
 {
-    Hand hand = 0_hand;
+    Hand hand = 0;
 
     while (cardsCount) {
         Card card;
 
         do {
             card = getRandomCard();
-        } while (((hand | card).bits == hand.bits) | ((filter | card).bits == filter.bits));
+        } while (((hand | card) == hand) | ((filter | card) == filter));
 
         hand |= card;
         cardsCount--;
@@ -122,7 +122,7 @@ void testPerformance() noexcept
     end = std::chrono::steady_clock::now();
     testDurations.push_back(end - begin);
 
-    std::cout << result << std::endl;;
+    std::cout << result << std::endl;
     for (unsigned i = 0; i < testDurations.size(); i++) {
         std::cout << "Performance " << testNames[i] << " is " << (std::chrono::duration_cast<std::chrono::nanoseconds>(testDurations[i]).count() / iterationsCount) << " ns per hand. It is " <<
                  iterationsCount * std::chrono::seconds(1) / testDurations[i] << " hands per second" << std::endl;

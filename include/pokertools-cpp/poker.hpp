@@ -112,16 +112,11 @@ namespace pokertools
     };
 
     union Hand {
+    private:
         uint64_t bits;
         uint16_t suits[4];
 
-        struct {
-            uint16_t clubs;
-            uint16_t diamonds;
-            uint16_t hearts;
-            uint16_t spades;
-        } suit;
-
+    public:
         Hand() noexcept = default;
 
         constexpr Hand(uint64_t value) noexcept : bits(value)
@@ -137,6 +132,11 @@ namespace pokertools
         inline constexpr operator uint64_t() const noexcept
         {
             return bits;
+        }
+
+        inline constexpr uint16_t suit(Suit suit) const noexcept
+        {
+            return suits[static_cast<unsigned>(suit)];
         }
     };
 
@@ -166,31 +166,28 @@ namespace pokertools
     template <typename T>
     inline constexpr Hand operator|(Card card, T value) noexcept
     {
-        Hand result { static_cast<uint64_t>(card) | static_cast<uint64_t>(value) };
-        assert((result.bits & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
+        Hand result = static_cast<uint64_t>(card) | static_cast<uint64_t>(value);
         return result;
     }
 
     template <typename T>
     inline constexpr Hand operator|(Hand hand, T value) noexcept
     {
-        Hand result { hand.bits | static_cast<uint64_t>(value) };
-        assert((result.bits & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
+        Hand result = static_cast<uint64_t>(hand) | static_cast<uint64_t>(value);
         return result;
     }
 
     template <typename T>
     inline constexpr Hand& operator|=(Hand& hand, T value) noexcept
     {
-        hand.bits |= static_cast<uint64_t>(value);
-        assert((hand.bits & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
+        hand = hand | static_cast<uint64_t>(value);
         return hand;
     }
 
     template <typename T>
     inline constexpr bool operator==(Hand hand, T value) noexcept
     {
-        return hand.bits == static_cast<uint64_t>(value);
+        return static_cast<uint64_t>(hand) == static_cast<uint64_t>(value);
     }
 
     template <typename T>
@@ -217,12 +214,6 @@ namespace pokertools
         unsigned suite = cardNumber / RanksCount;
         uint64_t rank = cardNumber % RanksCount;
         return static_cast<Card>(uint64_t(1) << rank << SuitSizeInBits * suite);
-    }
-
-    inline constexpr Hand operator"" _hand(unsigned long long hand) noexcept
-    {
-        assert((hand & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
-        return { hand };
     }
 
     inline constexpr Card operator"" _clubs(unsigned long long rank) noexcept

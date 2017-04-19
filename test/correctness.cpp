@@ -37,16 +37,16 @@ static Card getRandomCard() noexcept
     return createCard(cardsUniformDistribution(randomEngine));
 }
 
-static Hand getRandomHand(unsigned cardsCount, Hand filter = 0_hand) noexcept
+static Hand getRandomHand(unsigned cardsCount, Hand filter = 0) noexcept
 {
-    Hand hand = 0_hand;
+    Hand hand = 0;
 
     while (cardsCount) {
         Card card;
 
         do {
             card = getRandomCard();
-        } while (((hand | card).bits == hand.bits) | ((filter | card).bits == filter.bits));
+        } while (((hand | card) == hand) | ((filter | card) == filter));
 
         hand |= card;
         cardsCount--;
@@ -61,13 +61,13 @@ void testCorrectness() noexcept
         Hand hand = getRandomHand(7);
 
         if (evaluateHoldem7CardsHand(hand) != evaluateHoldemHand(hand, 7)) {
-            std::cout << "ERROR evaluating hand " << std::bitset<64>(hand.bits) << std::endl;
+            std::cout << "ERROR evaluating hand " << std::bitset<64>(hand) << std::endl;
         }
 
         hand = getRandomHand(5);
 
         if (evaluateHoldem5CardsHand(hand) != evaluateHoldemHand(hand, 5)) {
-            std::cout << "ERROR evaluating hand " << std::bitset<64>(hand.bits) << std::endl;
+            std::cout << "ERROR evaluating hand " << std::bitset<64>(hand) << std::endl;
         }
     }
 }

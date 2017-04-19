@@ -78,12 +78,12 @@ namespace pokertools
 
     uint32_t evaluateHoldem7CardsHand(Hand hand) noexcept
     {
-        assert(std::bitset<64>(hand.bits).count() == 7);
+        assert(std::bitset<64>(hand).count() == 7);
 
-        uint16_t clubs = hand.suit.clubs;
-        uint16_t diamonds = hand.suit.diamonds;
-        uint16_t hearts = hand.suit.hearts;
-        uint16_t spades = hand.suit.spades;
+        uint16_t clubs = hand.suit(Suit::Clubs);
+        uint16_t diamonds = hand.suit(Suit::Diamonds);
+        uint16_t hearts = hand.suit(Suit::Hearts);
+        uint16_t spades = hand.suit(Suit::Spades);
 
         uint16_t ranks = clubs | diamonds | hearts | spades;
         uint8_t ranksCount = numberOfBits[ranks];
@@ -219,12 +219,12 @@ namespace pokertools
 
     uint32_t evaluateHoldem5CardsHand(Hand hand) noexcept
     {
-        assert(std::bitset<64>(hand.bits).count() == 5);
+        assert(std::bitset<64>(hand).count() == 5);
 
-        uint16_t clubs = hand.suit.clubs;
-        uint16_t diamonds = hand.suit.diamonds;
-        uint16_t hearts = hand.suit.hearts;
-        uint16_t spades = hand.suit.spades;
+        uint16_t clubs = hand.suit(Suit::Clubs);
+        uint16_t diamonds = hand.suit(Suit::Diamonds);
+        uint16_t hearts = hand.suit(Suit::Hearts);
+        uint16_t spades = hand.suit(Suit::Spades);
 
         uint16_t ranks = clubs | diamonds | hearts | spades;
         uint8_t ranksCount = numberOfBits[ranks];
@@ -313,12 +313,12 @@ namespace pokertools
     uint32_t evaluateHoldemHand(Hand hand, unsigned cardsCount) noexcept
     {
         assert((cardsCount >= 5) && (cardsCount <= 7));
-        assert(std::bitset<64>(hand.bits).count() == cardsCount);
+        assert(std::bitset<64>(hand).count() == cardsCount);
 
-        uint16_t clubs = hand.suit.clubs;
-        uint16_t diamonds = hand.suit.diamonds;
-        uint16_t hearts = hand.suit.hearts;
-        uint16_t spades = hand.suit.spades;
+        uint16_t clubs = hand.suit(Suit::Clubs);
+        uint16_t diamonds = hand.suit(Suit::Diamonds);
+        uint16_t hearts = hand.suit(Suit::Hearts);
+        uint16_t spades = hand.suit(Suit::Spades);
 
         uint16_t ranks = clubs | diamonds | hearts | spades;
         uint8_t ranksCount = numberOfBits[ranks];
