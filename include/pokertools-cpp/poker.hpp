@@ -113,30 +113,30 @@ namespace pokertools
 
     union Hand {
     private:
-        uint64_t bits;
-        uint16_t suits[4];
+        uint64_t _bits;
+        uint16_t _suits[4];
 
     public:
         Hand() noexcept = default;
 
-        constexpr Hand(uint64_t value) noexcept : bits(value)
+        constexpr Hand(uint64_t value) noexcept : _bits(value)
         {
             assert((bits & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
         }
 
-        constexpr Hand(Card card) noexcept : bits(static_cast<uint64_t>(card))
+        constexpr Hand(Card card) noexcept : _bits(static_cast<uint64_t>(card))
         {
             assert((bits & 0b1110000000000000111000000000000011100000000000001110000000000000) == 0);
         }
 
         inline constexpr operator uint64_t() const noexcept
         {
-            return bits;
+            return _bits;
         }
 
         inline constexpr uint16_t suit(Suit suit) const noexcept
         {
-            return suits[static_cast<unsigned>(suit)];
+            return _suits[static_cast<unsigned>(suit)];
         }
     };
 
