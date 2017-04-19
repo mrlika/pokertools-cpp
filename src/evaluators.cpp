@@ -29,7 +29,7 @@ namespace pokertools
     static uint16_t* highUpTo3Bits;
     static std::unique_ptr<uint8_t, std::function<void(uint8_t*)>> buffer;
 
-    static const unsigned HandTypeInValueShift = 28;
+    static constexpr unsigned HandTypeInValueShift = 28;
 
     static inline uint32_t calculateStraightFlushValue(uint16_t highCardRank) noexcept
     {
